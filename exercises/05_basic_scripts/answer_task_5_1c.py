@@ -50,10 +50,8 @@ london_co = {
     },
 }
 
-device = london_co.get(input('Введите имя устройства:\n'))
-if device != None:
-    param = device.get(input('Введите имя параметра (' + ','.join(list(device.keys())) + '):\n'))
-    if param!=None:
-        print(param)
-    else:
-        print('Такого параметра нет')
+device = input("Введите имя устройства: ")
+params = ", ".join(london_co[device].keys())
+parameter = input(f"Введите имя параметра ({params}): ")
+
+print(london_co[device].get(parameter, "Такого параметра нет"))

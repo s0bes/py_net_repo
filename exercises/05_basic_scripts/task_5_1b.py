@@ -50,3 +50,7 @@ london_co = {
         "routing": True,
     },
 }
+
+device = london_co.get(input('Enter device name\n'))
+if device != None:
+    print(device.get(input('Enter paramener name ' + str(list(device.keys())) + '\n')))

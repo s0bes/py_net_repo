@@ -43,3 +43,7 @@ london_co = {
         "routing": True,
     },
 }
+
+device = london_co.get(input('Введите имя устройства:\n'))
+if device != None:
+    print(device.get(input('Введите имя параметра (' + ','.join(device.keys()) + '):\n').lower(), 'Такого параметра нет'))

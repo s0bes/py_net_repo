@@ -44,6 +44,8 @@ london_co = {
         "routing": True,
     },
 }
-device = london_co.get(input('Enter device name\n'))
-if device != None:
-    print(device.get(input('Enter paramener name\n')))
+
+device = input("Введите имя устройства: ")
+parameter = input("Введите имя параметра: ")
+
+print(london_co[device][parameter])
