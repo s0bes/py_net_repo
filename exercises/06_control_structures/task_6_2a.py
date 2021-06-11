@@ -17,3 +17,27 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+
+ip = input('Введите IP адрес:\n')
+
+
+octs = ip.split('.')
+count = 0
+for o in octs:
+    if o.isdigit() and int(o) in range(256):
+            count += 1
+
+if count != 4:
+    print('Неправильный IP-адрес')
+else:
+    octet = int(ip[0:ip.find('.')])
+    if 0<octet<224:
+        print('unicast')
+    elif 223<octet<240:
+        print('multicast')
+    elif ip == '255.255.255.255':
+        print('local broadcast')
+    elif ip == '0.0.0.0':
+        print('unassigned')
+    else:
+        print('unused')
