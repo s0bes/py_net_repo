@@ -65,33 +65,17 @@ def ignore_command(command, ignore):
             ignore_status = True
     return ignore_status
 
+
 def convert_config_to_dict(config_filename):
-    """
-    Функция обрабатывает файл config_filename и возвращает словарь из ключей (основных команд) и списка команд,
-    которые относятся к данному ключу. Так же проверяется, надо ли игнорировать команду 
-    """
-    cmd_dict = {}
-    key = ''
-    vals = []
-    with open(config_filename, 'r') as f:
+    config_dict = {}
+    with open(config_filename) as f:
         for line in f:
-            line = line.strip('\n')
-            if not (ignore_command(line, ignore) or line.startswith('!')):
-                #ключа нет, строка не начинается с пробела - это новый ключ
-                if key == '' and not line.startswith(' '):
-                    key = line.strip()
-                #ключ есть и строка начинается с пробела - пополняем список команд для нашего ключа
-                elif key != '' and line.startswith(' '):
-                    vals.append(line.strip())
-                #ключ есть и новая строка - тоже ключ - фиксируем наш ключ, запоминаем новый
-                elif key!= '' and not line.startswith(' '):
-                    cmd_dict[key] = vals
-                    vals = []
-                    key = line.strip()
-        if key!= '':
-            cmd_dict[key] = vals
-    return cmd_dict
-    
-print(convert_config_to_dict('config_sw1.txt'))
-                 
-    
+            line = line.rstrip()
+            if line and not (line.startswith("!") or ignore_command(line, ignore)):
+                if line[0].isalnum():
+                    section = line
+                    config_dict[section] = []
+                else:
+                    config_dict[section].append(line.strip())
+    return config_dict
+

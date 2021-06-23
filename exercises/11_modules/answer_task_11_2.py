@@ -28,7 +28,6 @@ Cгенерировать топологию, которая соответст�
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
-
 from task_11_1 import parse_cdp_neighbors
 from pprint import pprint
 
@@ -41,11 +40,15 @@ infiles = [
 
 
 def create_network_map(filenames):
-    result = {}
+    network_map = {}
+
     for filename in filenames:
-        with open(filename, 'r') as f:
-            result.update(parse_cdp_neighbors(f.read()))
-    return result
+        with open(filename) as show_command:
+            parsed = parse_cdp_neighbors(show_command.read())
+            network_map.update(parsed)
+    return network_map
+
 
 if __name__ == "__main__":
-    pprint(create_network_map(infiles))
+    topology = create_network_map(infiles)
+    pprint(topology)

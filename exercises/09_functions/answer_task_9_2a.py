@@ -29,21 +29,14 @@ trunk_config = {
 }
 
 def generate_trunk_config(intf_vlan_mapping, trunk_template):
-    """
-    intf_vlan_mapping - словарь типа {интерфейс : [список вланов]}
-    trunk_template - спаисок команд для настройки транк
-    """
-         
-    return {
-    intf: 
-        [
-            cmd.replace('ed vlan', 'ed vlan ' + ','.join([str(vlan) for vlan in vlan_list]))
-            for cmd in trunk_template
-        ]
-    for intf, vlan_list
-    in intf_vlan_mapping.items()
-}
-    
-     
-
-print(generate_trunk_config(trunk_config, trunk_mode_template))
+    trunk_conf = {}
+    for port, vlans in intf_vlan_mapping.items():
+        commands = []
+        for command in trunk_template:
+            if command.endswith("allowed vlan"):
+                vlans_str = ",".join([str(vl) for vl in vlans])
+                commands.append(f"{command} {vlans_str}")
+            else:
+                commands.append(command)
+        trunk_conf[port] = commands
+    return trunk_conf

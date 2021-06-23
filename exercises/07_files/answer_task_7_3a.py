@@ -23,18 +23,14 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+mac_table = []
 
-filename = 'CAM_table.txt'
-f_str = '{:<10}{:15}{:>10}'
+with open("CAM_table.txt", "r") as conf:
+    for line in conf:
+        words = line.split()
+        if words and words[0].isdigit():
+            vlan, mac, _, intf = words
+            mac_table.append([int(vlan), mac, intf])
 
-vlan_dict = []
-
-with open(filename, 'r') as f:
-    for line in f:
-        if line.find('DYNAMIC') != -1:
-            vlan, mac, typ, intf = line.split()
-            vlan_dict.append([int(vlan), mac, intf])
-
-vlan_dict = sorted(vlan_dict)
-for v in vlan_dict:
-    print(f_str.format(v[0], v[1], v[2]))
+for vlan, mac, intf in sorted(mac_table):
+    print(f"{vlan:<9}{mac:20}{intf}")

@@ -21,12 +21,9 @@
 
 """
 
-
-filename = 'CAM_table.txt'
-f_str = '{:10}{:15}{:>10}'
-
-with open(filename, 'r') as f:
-    for line in f:
-        if line.find('DYNAMIC') != -1:
-            data = line.split()
-            print(f_str.format(data[0], data[1], data[3]))
+with open("CAM_table.txt") as conf:
+    for line in conf:
+        words = line.split()
+        if words and words[0].isdigit():
+            vlan, mac, _, interface = words
+            print(f"{vlan:9}{mac:20}{interface}")
